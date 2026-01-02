@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* REQUIRED for @apply in Tailwind v4 */
+@reference utilities;
+
+/* ================================
+   EirCore Theme Variables
+================================ */
+:root {
+  --eircore-green: #1f8f4a;
+  --eircore-bg: #f7f9fb;
+  --eircore-text: #2f3a40;
+}
+
+/* ================================
+   Base Styles
+================================ */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--eircore-bg);
+  color: var(--eircore-text);
+}
+
+/* ================================
+   Floating Label Form System
+================================ */
+.form-group {
+  @apply relative w-full;
+}
+
+.form-input {
+  @apply w-full bg-white border border-gray-300 rounded-xl
+         px-4 pt-5 pb-2 text-sm text-gray-800
+         outline-none transition-all duration-200
+         focus:border-emerald-600
+         focus:ring-2 focus:ring-emerald-600/20;
+}
+
+/* Floating Label */
+.form-label {
+  @apply absolute left-4 top-3 text-gray-500 text-sm
+         pointer-events-none transition-all duration-200;
+}
+
+/* Float on focus or when input has value */
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+  @apply text-xs top-1 text-emerald-600;
+}
+
+/* Textarea fix */
+textarea.form-input {
+  @apply resize-none;
+}
+
+/* ================================
+   Submit Button
+================================ */
+.btn-primary {
+  @apply w-full rounded-xl bg-emerald-600
+         text-white py-3 font-semibold text-sm
+         transition hover:bg-emerald-700
+         disabled:opacity-60;
+}
+
+/* ================================
+   Card (Form Container)
+================================ */
+.form-card {
+  @apply bg-white rounded-2xl p-7
+         shadow-[0_18px_40px_rgba(0,0,0,0.08)];
+}
