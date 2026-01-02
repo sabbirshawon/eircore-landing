@@ -1,17 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const messageTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  function clearMessageTimeout() {
+    if (messageTimeoutRef.current) {
+      clearTimeout(messageTimeoutRef.current);
+      messageTimeoutRef.current = null;
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setSuccess(false);
     setError(null);
+    clearMessageTimeout();
 
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form));
@@ -19,20 +29,28 @@ export default function ContactForm() {
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to send");
-      }
+      if (!res.ok) throw new Error("Failed to send");
 
       setSuccess(true);
       form.reset();
+
+      // ✅ Auto-hide success after 3s
+      messageTimeoutRef.current = setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+
     } catch {
       setError("Something went wrong. Please try again.");
+
+      // ✅ Auto-hide error after 4s
+      messageTimeoutRef.current = setTimeout(() => {
+        setError(null);
+      }, 4000);
+
     } finally {
       setLoading(false);
     }
