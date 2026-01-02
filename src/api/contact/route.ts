@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 /**
  * PUBLIC LOGO URL (MUST be HTTPS)
  */
-const LOGO_URL = "https://eircore-landing.vercel.app/logo-dark.png";
+const LOGO_URL = "https://eircore-landing.vercel.app/logo-dark.svg";
 
 /**
  * Handle preflight (prevents 405 on Vercel)
